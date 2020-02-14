@@ -1,0 +1,23 @@
+#include <iostream>
+#include <cstring>
+#pragma warning(disable:4996)
+using namespace std;
+
+int main() {
+	char firstname[10] = {};
+	char lastname[10] = {};
+	char fullname[20] = {};
+
+	cout << "이름을 입력하시오 : ";
+	cin.getline(firstname, 10);
+	cout << "성을 입력하십시오 : ";
+	cin.getline(lastname, 10);
+
+	strcat(fullname, firstname);
+	strcat(fullname, ", ");
+	strcat(fullname, lastname);
+
+	cout << "당신의 이름은" << fullname << "입니다.";
+	
+	return 0;
+}

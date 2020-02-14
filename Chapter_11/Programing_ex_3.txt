@@ -1,0 +1,194 @@
+[header.h]
+#ifndef VECTOR_H_
+#define VECTOR_H_
+#include <iostream>
+namespace VECTOR {
+	class Vector {
+	public:
+		enum MODE { RECT, POL };
+		Vector();
+		Vector(double n1, double n2, MODE form = RECT);
+		void Reset(double n1, double n2, MODE form = RECT);
+		~Vector();
+		double xval() const { return x; }
+		double yval() const { return y; }
+		double magval() const { return mag; }
+		double angvla() const { return ang; }
+		void polar_mode();
+		void rect_mode();
+
+		Vector operator+(const Vector& b)const;
+		Vector operator-(const Vector& b)const;
+		Vector operator-() const; //부호를 바꾼다.
+		Vector operator*(double n)const;
+
+		friend Vector operator*(double n, const Vector& a);
+		friend std::ostream& operator<< (std::ostream& os, const Vector& v);
+	private:
+		double x;
+		double y;
+		double mag;
+		double ang;
+		MODE mode;
+		void set_mag();
+		void set_ang();
+		void set_x();
+		void set_y();
+	};
+}
+#endif // !VECTOR_H_
+[vector.cpp]
+#include <iostream>
+#include <cmath>
+#include "header.h"
+using std::sqrt;
+using std::sin;
+using std::cos;
+using std::atan;
+using std::atan2;
+using std::cout;
+using std::endl;
+
+namespace VECTOR {
+	const double Rad_to_Deg = 45 / atan(1.0);
+	void Vector::set_mag() {
+		mag = sqrt(x * x + y * y);
+	}
+	void Vector::set_ang() {
+		if (x == 0 && y == 0)
+			ang = 0.0;
+		else
+			ang = atan2(y, x);
+	}
+	void Vector::set_x() {
+		x = mag * cos(ang);
+	}
+	void Vector::set_y() {
+		y = mag * sin(ang);
+	}
+	Vector::Vector() {
+		x = y = mag = ang = 0.0;
+		mode = RECT;
+	}
+	Vector::Vector(double n1, double n2, MODE form) {
+		mode = form;
+		if (mode == RECT) {
+			x = n1;
+			y = n2;
+			set_mag();
+			set_ang();
+		}
+		else if (mode == POL) {
+			mag = n1;
+			ang = n2;
+			set_x();
+			set_y();
+		}
+		else {
+			cout << "[ERROR]MODE에 잘못된 인자가 전달됐음[ERROR]" << endl;
+			cout << "따라서 영벡터로 생성합니다." << endl;
+			x = y = mag = ang = 0;
+			mode = RECT;
+		}
+	}
+	void Vector::Reset(double n1, double n2, MODE form) {
+		mode = form;
+		if (mode == RECT) {
+			x = n1;
+			y = n2;
+			set_mag();
+			set_ang();
+		}
+		else if (mode == POL) {
+			mag = n1;
+			ang = n2;
+			set_x();
+			set_y();
+		}
+		else {
+			cout << "[ERROR]MODE에 잘못된 인자가 전달됐음[ERROR]" << endl;
+			cout << "따라서 영벡터로 생성합니다." << endl;
+			x = y = mag = ang = 0;
+			mode = RECT;
+		}
+	}
+	Vector::~Vector() {}
+	void Vector::polar_mode() {
+		mode = POL;
+	}
+	void Vector::rect_mode() {
+		mode = RECT;
+	}
+	Vector Vector::operator+(const Vector& b) const {
+		return Vector(x + b.x, y + b.y, RECT);
+	}
+	Vector Vector::operator-(const Vector& b) const {
+		return Vector(x - b.x, y - b.y);
+	}
+	Vector Vector::operator-() const {
+		return Vector(-x, -y);
+	}
+	Vector Vector::operator*(double n)const {
+		return Vector(n * x, n * y);
+	}
+	Vector operator*(double n, const Vector& a) {
+		return a * n;
+	}
+	std::ostream& operator<<(std::ostream& os, const Vector& a) {
+		if (a.mode == Vector::RECT)
+			os << "(x,y) = (" << a.x << "," << a.y << ")";
+		else if (a.mode == Vector::POL)
+			os << "(mag,deg) = (" << a.mag << "," << a.ang * Rad_to_Deg << ")";
+		else
+			os << "객체 모드 지정이 틀렸습니다." << endl;
+		return os;
+	}
+}
+[usevector.cpp]
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include "header.h"
+
+int main() {
+	using namespace std;
+	using namespace VECTOR;
+	srand(0);
+	int repeat;
+	int MaxMinAvg[3] = {};//{max,min,avg}
+	double direction;
+	Vector step;
+	Vector result(0.0, 0.0);
+	unsigned long steps = 0;
+	double target;
+	double dstep;
+	cout << "목표 거리를 입력하시오(종료:q) : ";
+	while (cin >> target) {
+		cout << "보폭을 입력하시오 : ";
+		if (!(cin >> dstep)) break;
+		cout << "반복 횟수를 입력하시오.";
+		cin >> repeat;
+		for (int i = 0; i < repeat; i++) {
+			while (result.magval() < target) {
+				direction = rand() % 360;
+				step.Reset(dstep, direction, Vector::POL);
+				result = result + step;
+				steps++;
+			}
+			MaxMinAvg[0] = MaxMinAvg[0] > steps ? MaxMinAvg[0] : steps;
+			MaxMinAvg[1] = MaxMinAvg[0] < steps ? MaxMinAvg[0] : steps;;
+			MaxMinAvg[2] += steps;
+			steps = 0;
+			result.Reset(0.0, 0.0);
+		}
+		MaxMinAvg[2] /= repeat;
+		cout << "최대걸음 : " << MaxMinAvg[0] << endl;
+		cout << "최소걸음 : " << MaxMinAvg[1] << endl;
+		cout << "평균걸음 : " << MaxMinAvg[2] << endl;
+		cout << "목표거리를 입력하시오(종료 q) : ";
+	}
+	
+	cout << "프로그램을 종료합니다." << endl;
+	while (cin.get() != '\n') continue;
+	return 0;
+}

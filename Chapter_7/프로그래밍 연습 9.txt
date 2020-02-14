@@ -1,0 +1,76 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+const int SLEN = 30;
+struct student {
+	char fullname[SLEN] = {};
+	char hobby[SLEN] = {};
+	int ooplevel;
+};
+
+int getinfo(student st[], int num_of_index);
+void _display1(student st);
+void _display2(const student* pst);
+void _display3(const student pst[], int num_of_index);
+
+int main() {
+	int class_size;
+	cout << "학생 수를 입력하시오 : ";
+	cin >> class_size;
+	while (cin.get() != '\n') continue;	
+	student* ptr_info = new student[class_size];
+	int entered = getinfo(ptr_info,class_size);
+	cout << endl;
+	for (int i = 0; i < entered; i++)	{
+		cout << "학생#" << i + 1 << endl;
+		cout << "display1\n";
+		_display1(ptr_info[i]);
+		cout << "display2\n";
+		_display2(&ptr_info[i]);
+	}
+	cout << endl;
+	cout << "display3\n";
+	_display3(ptr_info,entered);
+	cout << "프로그램을 종료합니다.";
+
+	delete[] ptr_info;
+	return 0;
+}
+
+int getinfo(student st[], int n) {
+	cout << "학생 정보를 입력합니다.\n종료하려면 이름에 공백 입력\n";
+	int i = 0;
+	for (; i < n; i++)	{
+		cout << "이름 : ";
+		cin.getline(st[i].fullname, SLEN);
+		if (!st[i].fullname[0]) break;		
+		cout << "취미 : ";
+		cin.getline(st[i].hobby, SLEN);
+		cout << "ooplevel : ";
+		cin >> st[i].ooplevel;
+		cin.get();
+	}
+	return i;
+}
+void _display1(student st) {
+	cout <<"이름 : "<<st.fullname << endl;
+	cout << "취미 : " << st.hobby << endl;
+	cout << "ooplevel : " << st.ooplevel << endl;
+	return;
+}
+void _display2(const student* pst) {
+	cout << "이름 : " << pst->fullname << endl;
+	cout << "취미 : " << pst->hobby << endl;
+	cout << "ooplevel : " << pst->ooplevel << endl;
+	return;
+}
+void _display3(const student pst[], int n) {
+	for (int i = 0; i < n; i++)	{
+		cout << "\n학생# " << i + 1 << endl;
+		cout << "이름 : " << (pst+i)->fullname << endl;
+		cout << "취미 : " << (pst+i)->hobby << endl;
+		cout << "ooplevel : " << (pst+i)->ooplevel << endl;
+	}
+	return;
+}

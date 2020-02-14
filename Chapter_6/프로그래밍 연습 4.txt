@@ -1,0 +1,67 @@
+#include <iostream>
+using namespace std;
+const int strsize = 20;
+struct bop {
+	char fullname[strsize];
+	char title[strsize];
+	char bopname[strsize];
+	int preference; //1~3
+};
+
+int main() {
+	bop *member = new bop[5];
+	member[0] = { "Wimp Macho","Intern","NUN",0};
+	member[1] = { "Raki Rhodes","Junior Programer","KOE",1};
+	member[2] = { "Celia Laiter","Coder","MIPS",2};
+	member[3] = { "Hoppy Hipman","Analyst Trainee","METOER",1};
+	member[4] = { "Pit Hand","Senior Programmer","LOOPY",2};
+
+	char ch;
+	do{
+		cout << "다음 선택새항 중에서 하나를 선택하십시오.(끝내려면 q)" << endl;
+		cout << "a.실명으로 열람\nb.직함으로 열람\nc.BOP아이디로 열람\nd.회원이 지정한 것으로 열람\n";
+
+		cin >> ch;
+		switch (ch)
+		{
+		case 'a':
+			for (int i = 0; i < 5; i++)
+				cout << (member + i)->fullname<<endl;
+			cout << endl;
+			break;
+		case 'b':
+			for (int i = 0; i < 5; i++)
+				cout << (member + i)->title << endl;
+			cout << endl;
+			break;
+		case 'c':
+			for (int i = 0; i < 5; i++)
+				cout << (member + i)->bopname << endl;
+			cout << endl;
+			break;
+		case 'd':
+			for (int i = 0; i < 5; i++) 
+				switch (member[i].preference) {
+				case 0:
+					cout << (member + i)->fullname << endl;
+					break;
+				case 1:
+					cout << (member + i)->title << endl;
+					break;
+				case 2:
+					cout << (member + i)->bopname << endl;
+					break;
+				}
+			cout << endl;
+			break;
+		case 'q':
+			break;
+		default :
+			cout << "보기 중에서 고르시오" << endl;
+			break;
+		}
+	} while (ch != 'q');
+	cout << "종료합니다,";
+	delete[] member;
+	return 0;
+}

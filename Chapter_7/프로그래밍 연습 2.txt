@@ -1,0 +1,86 @@
+#include <iostream>
+using namespace std;
+
+void par_3(),par_4(),par_5();
+void score_input(int*,int);
+void score_output(int*,int);
+float score_mean(int*);
+
+int main()
+{
+	int par_hole;
+	cout << "파 홀 수를 입력하시오(3or4or5) : ";
+
+	do {
+		cin >> par_hole;
+		if (par_hole != 3 and par_hole != 4 and par_hole != 5)
+			cout << "다시 입력하시오(3or4or5) : ";
+	} while (par_hole != 3 and par_hole != 4 and par_hole != 5);
+
+	cout << "PAR HOLES : " << par_hole << endl;
+	cout << "점수(정수)를 입력하시오(최대 10개)\n" << endl;
+
+	switch (par_hole)
+	{
+	case 3:
+		par_3();
+		break;
+	case 4:
+		par_4();
+		break;
+	case 5:
+		par_5();
+		break;
+	};
+	cout << "입력 종료 (-" << par_hole << ")" << endl << endl;
+
+	int SCORES[10] = {};
+	score_input(SCORES,par_hole);
+	score_output(SCORES, par_hole);
+	int mean = score_mean(SCORES);
+	cout << "점수의 평균은 [" << mean << "] 입니다.";
+
+	return 0;
+}
+
+void par_3(){
+	cout << "홀인원(-2) 버디(-1)    파(0)" << endl;
+	cout << "보기(1)    더블보기(2) 더블파(3)" << endl;
+}
+void par_4() {
+	cout << "알바트로스(-3) 이글(-2)    버디(-1)      파(0)" << endl;
+	cout << "보기(1)        더블보기(2) 트리플보기(3) 더블파(4)" << endl;
+}
+void par_5() {
+	cout << "콘도르(-4) 알바트로스(-3) 이글(-2)      버디(-1)       파(0)" << endl;
+	cout << "보기(1)    더블보기(2)    트리플보기(3) 쿼드러플보기(4) 더블파(5)" << endl;
+}
+
+void score_input(int* MAT,int holes)
+{
+	int i = 0;
+	for (; i < 10; i++)
+	{
+		cout << "스코어_" << i+1 << " : ";
+		cin >> *(MAT + i);
+
+		if (*(MAT + i) == -holes) break;
+		else if (abs(MAT[i]) > holes)
+			cout << "SCORE_" << (i--)+1 << "_ERROR(-" << holes - 1 << "~" << holes << ")" << endl;
+	}
+	for (; i < 10; i++) MAT[i] = 10;
+}
+void score_output(int* MAT,int holes)
+{
+	cout << "입력한 스코어는 다음과 같습니다." << endl;
+	for (int i = 0; i < 10; i++) cout <<i+1<<"\t";
+	cout << endl;
+	for (int i = 0; i < 10 && MAT[i] != 10; i++) cout << MAT[i] << "\t";
+	cout << endl;
+}
+float score_mean(int* MAT)
+{
+	int avg = 0;
+	for (int i = 0; i < 10 && MAT[i] != 10; i++) avg += MAT[i];
+	return avg;
+}

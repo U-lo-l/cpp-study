@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+using namespace std;
+void strcount(const string str);
+int main() {
+	string input;
+	char next;
+	cout << "영문으로 한 행을 입력하시오 : "<<endl;
+	getline(cin,input);
+	while (input!="") {
+		strcount(input);
+		getline(cin, input);
+	}
+	cout << "프로그램 종료";
+	return 0;
+}
+
+void strcount(const string str) {
+	static int total = 0;
+	int count = -1;
+	int blank = 0;
+	cout << "\"" << str << "\"에는 ";
+	while (str[++count]) if(str[count]==' ') blank++;
+	count -= blank;
+	total += count;
+	cout << count << "개의 문자가 있습니다." << endl;
+	cout << "총 " << total << "개의 문자가 있습니다." << endl;
+	return;
+}

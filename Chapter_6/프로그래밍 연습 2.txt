@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	cout << "기부금을 입력하십시오:" << endl;
+	double donate[10] = {};
+
+	cout << "기부금 #1 : ";
+	int i = 0;
+	while (i<10 and cin >> donate[i])
+		if (++i < 10)
+			cout << "기부금 #" << i + 1 << " : ";
+	
+	double average = 0;
+	cout << "기부금 개수 : " << i << endl;
+
+	for (int j = 0; j < i; j++)
+		average += donate[j];
+	average /= i;
+	cout << "평균 : " << average << endl;
+
+	int count = 0;
+	for (int j = 0; j < i; j++)
+		if (average < donate[j])
+			count++;
+	cout << "평균보다 큰 금액의 기부금이" << count << "개 있음";
+
+	return 0;
+}

@@ -1,0 +1,14 @@
+#include <iostream>
+using namespace std;
+
+struct CandyBar {
+	char name[20];
+	float mass;
+	int cal;
+};
+
+int main() {
+	CandyBar snack{"Mocha Munch",2.3,350};
+	cout << "이름:" << snack.name << endl << "질량" << snack.mass << endl << "칼로리" << snack.cal << endl;
+	return 0;
+}

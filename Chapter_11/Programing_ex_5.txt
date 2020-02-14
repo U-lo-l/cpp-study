@@ -1,0 +1,103 @@
+[header.h]
+#ifndef STONE_H_
+#define STONE_H_
+#include<iostream>
+namespace LBSTN {
+	class Stonewt
+	{
+	public:
+		enum Mode { LBS, STN, LBS_PER_STN = 14 };
+		Stonewt(double lbs);
+		Stonewt(int stn, double lbs);
+		Stonewt();
+		void ChangeMode(Mode);
+		friend std::ostream& operator<<(std::ostream& os, const Stonewt& s);
+	private:
+		int stone;
+		Mode mode;
+		double pds_left;
+		double pounds;
+	};
+}
+#endif //STONE_H_
+[stonewt.cpp]
+#include <iostream>
+#include "header.h"
+namespace LBSTN {
+	Stonewt::Stonewt(double lbs) {
+		stone = static_cast<int>(lbs) / LBS_PER_STN;
+		pds_left = static_cast<int>(lbs) % LBS_PER_STN + lbs - static_cast<int>(lbs);
+		pounds = lbs;
+		mode = LBS;
+	}
+	Stonewt::Stonewt(int stn, double lbs) {
+		stone = stn;
+		pds_left = lbs;
+		pounds = LBS_PER_STN * stn + lbs;
+		mode = LBS;
+	}
+	Stonewt::Stonewt() {
+		stone = 0;
+		pounds = pds_left = 0.0;
+		mode = LBS;
+	}
+	void Stonewt::ChangeMode(Mode m) {
+		mode = m;
+	}
+	std::ostream& operator<<(std::ostream& os, const Stonewt& s) {
+		if (s.mode == s.STN)
+			os << s.stone << " stone, " << s.pds_left << " pounds";
+		else if (s.mode == s.LBS)
+			os << s.pounds << " pounds";
+		else
+			std::cout << "출력모드 오류" << std::endl;
+
+		return os;
+	}
+}
+[usestonewt.cpp]
+#include <iostream>
+#include "header.h"
+using namespace LBSTN;
+
+void Display(const Stonewt& st, int n);
+
+int main(){
+	Stonewt pavarotti = 275;	
+	Stonewt wolfe(285.7);		
+	Stonewt taft(21, 8);
+	taft.ChangeMode(taft.STN);
+
+	std::cout << "테너 가수의 몸무게 : ";
+	std::cout << pavarotti << std::endl;
+	std::cout << "탐정의 몸무게 : ";
+	std::cout << wolfe << std::endl;
+	std::cout << "대통령의 몸무게 : ";
+	std::cout << taft << std::endl;
+
+	pavarotti = 276.8;	
+	taft = 325;		
+
+	std::cout << "저녁 식사 후 테너가수의 몸무게 : ";
+	pavarotti.ChangeMode(pavarotti.STN);
+	std::cout << pavarotti << std::endl;
+	std::cout << "저녁 식사 후 대통령의 몸무게 : ";
+	taft.ChangeMode(taft.LBS);
+	std::cout << taft << std::endl;
+
+	Display(taft, 2);
+
+	std::cout << "레슬링선수는 그보다 더 무겁다." << std::endl;
+	Display(422, 2);
+	std::cout << "비만은 건강의 최대 적이다." << std::endl;
+
+	std::cin.get();
+
+	return 0;
+}
+
+void Display(const Stonewt& st, int n)
+{
+	for (int i = 0; i < n; i++)
+		std::cout << "와! " << std::endl << st << std::endl;
+}

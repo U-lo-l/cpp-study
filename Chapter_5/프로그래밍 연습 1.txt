@@ -1,0 +1,17 @@
+#include<iostream>
+using namespace std;
+
+int main() {
+	int a, b;
+	cout << endl << "입력 - 정수1 :";
+	cin >> a;
+	cout << "입력 - 정수2 : ";
+	cin >> b;
+	cout << "정수 1 : " << a << endl <<"정수 2 : "<< b << endl;
+	int sum = 0;
+	for (a; a < (b + 1); a++) {
+		sum += a;
+	}
+	cout << "합 : " << sum;
+	return 0;
+}

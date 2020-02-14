@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+const int MAX = 5;
+
+// int fill_array(double*, int);
+double* fill_array(double*, int);
+void show_array(const double*, double*);
+void revalue(double, double*, double*);
+
+int main() {
+	double property[MAX];
+	//int size = fill_array(property, MAX);
+	double* pt_last = fill_array(property, MAX);
+	//show_array(property,size);
+	show_array(property, pt_last);
+	//if(size>0)
+	if (property<pt_last) {
+		cout << "재평가율을 입력하시오 : ";
+		double factor;
+		while (!(cin >> factor)) {
+			cin.clear();
+			while (cin.get() != '\n')
+				continue;
+			cout << "잘못 입력했습니다. 수치를 입력하세요";
+		}
+		revalue(factor, property, pt_last);
+		show_array(property, pt_last);
+	}
+	cout << "프로그램을 종료합니다." << endl;
+	cin.get();
+	cin.get();
+	return 0;
+}
+
+double* fill_array(double* Arr, int limit) {
+	double temp;
+	int i = 0;
+	for (; i < limit; i++){
+		cout << (i + 1) << "번 부동산 가격 : $";
+		cin >> temp;
+		if (!cin) {
+			cin.clear();
+			while (cin.get() != '\n') continue;
+			cout << "입력 불량; 입력과정을 끝내겠습니다.";
+			break;
+		}
+		else if (temp < 0)
+			break;
+		Arr[i] = temp;
+	}
+	return Arr+i;
+}
+void show_array(const double* Arr, double* ptr) {
+	//for(int i = 0 ; i<size ; i++)
+	for (int i = 0; Arr+i < ptr; i++)	{
+		cout << i + 1 << "번 부동산 : $";
+		cout << Arr[i] << endl;
+	}
+}
+void revalue(double r, double* Arr, double* ptr) {
+	//for(int i = 0 ; i<size ; i++)
+	for (int i = 0; Arr + i < ptr; i++)	Arr[i] *= r;
+}

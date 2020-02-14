@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct pizza_data {
+	string name;
+	float diameter;
+	float mass;
+};
+
+int main() {
+
+	pizza_data* Data = new pizza_data;
+
+	cout << "회사 이름을 입력하시오 : ";
+	getline(cin, Data->name);
+	cout << "피자의 지름을 입력하시오 : ";
+	cin >> Data->diameter;
+	cout << "피자의 중량을 입력하시오 : ";
+	cin >> Data->mass;
+
+	cout << "회사 : " << Data->name << endl;
+	cout << "지름 : " << Data->diameter << endl;
+	cout << "중량 : " << Data->mass;
+
+	delete Data;
+	return 0;
+}

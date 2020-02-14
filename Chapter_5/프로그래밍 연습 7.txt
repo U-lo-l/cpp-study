@@ -1,0 +1,32 @@
+#include <iostream>
+
+using namespace std;
+struct car {
+	char company[10];
+	int year;
+};
+
+int main() {
+	int cars;
+	cout << "몇 대의 차를 관리하시겠습니까?";
+	cin >> cars;
+	cin.get();
+	car* control = new car[cars];
+
+	for (int i = 0; i < cars; i++) {		
+		cout << "자동차 #" << i+1 << " : " << endl;
+		cout << "제작업체 : ";
+		cin.getline(control[i].company,10);
+		cout << "제작년도 : ";
+		cin >> control[i].year;
+		cin.get();
+	}
+
+	cout << "현재 귀하가 보유하고 있는 자동차 목록은 다음과 같습니다." << endl;
+
+	for (int i = 0; i < cars; i++) 
+		cout << control[i].year << "년 형 " << control[i].company << endl;
+
+	delete[] control;
+	return 0;
+}

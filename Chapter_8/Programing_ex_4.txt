@@ -1,0 +1,36 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+struct stringy{
+	char* str;
+	int ct;
+};
+void set(stringy& strct, const char arr[]) {
+	int len = strlen(arr);
+	strct.ct = len;
+	char* temp = new char[len + 1];
+	strcpy_s(temp, (len + 1), arr);
+	strct.str = temp;
+}
+void show(const stringy& strct, unsigned int n = 1) {
+	while (n--) cout << strct.str << endl;
+}
+void show(const char* arr,unsigned int n = 1) {
+	while (n--) cout << arr << endl;
+}
+int main() {
+	stringy beany;
+	char testing[] = "Reality isn't what it used to be.";
+	//show(beany);
+	set(beany, testing);
+	show(beany);
+	show(beany, 2);
+	delete[] beany.str;
+	//show(beany);
+	testing[0] = 'D';
+	testing[1] = 'u';
+	show(testing);
+	show(testing, 3);
+	show("Done !");
+	return 0;
+}

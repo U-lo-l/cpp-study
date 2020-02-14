@@ -1,0 +1,58 @@
+[헤더파일]
+#ifndef GOLF_H_
+#define GOLF_H_
+const int Len = 40;
+struct golf {
+	char fullname[Len];
+	int handicap;
+};
+
+void setgolf(golf& g, const char* name, int hc);
+int setgolf(golf& g);
+void handicap(golf& g, int hc);
+void showgolf(const golf& g);
+
+#endif
+[함수.cpp]
+#include <iostream>
+#include <cstring>
+#include "golf.h"
+using namespace std;
+
+void setgolf(golf& g, const char* name, int hc) {
+	strcpy_s(g.fullname,Len,name);
+	g.handicap = hc;
+}
+int setgolf(golf& g) {
+	cout << "이름을 입력하시오 : ";
+	cin.get(g.fullname,Len);
+	cout << "핸디캡을 입력하시오 : ";
+	cin >> g.handicap;
+	cin.get();
+	if (g.fullname[0] or g.fullname[0] == ' ')
+		return 0;
+	return 1;
+}
+void handicap(golf& g, int hc) {
+	g.handicap = hc;
+}
+void showgolf(const golf& g) {
+	cout << g.fullname << endl << g.handicap << endl;
+}
+[main.cpp]
+#include <iostream>
+#include "golf.h"
+using namespace std;
+
+int main() {
+	golf g1 = {};
+	golf g2 = {};
+	golf g3 = { "Ann" };
+	setgolf(g1);
+	setgolf(g2, "Nick", 2);
+	handicap(g3, 3);
+	showgolf(g1);
+	showgolf(g2);
+	showgolf(g3);
+	return 0;
+}

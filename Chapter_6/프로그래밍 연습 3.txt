@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	cout << "다음 선택새항 중에서 하나를 선택하십시오.(끝내려면 q)" << endl;
+	cout << "c) camera\np) pianist\nt) tree\ng) game\n";
+	char ch;
+	do{
+		cin >> ch;
+		switch (ch)
+		{
+		case 'c':
+			cout << "camera" << endl;
+			break;
+		case 'p':
+			cout << "pianist" << endl;
+			break;
+		case 't':
+			cout << "tree" << endl;
+			break;
+		case 'g':
+			cout << "game" << endl;
+			break;
+		case 'q':
+			break;
+		default :
+			cout << "c,p,t,g중에서 고르시오" << endl;
+			break;
+		}
+	} while (ch != 'q');
+	return 0;
+}

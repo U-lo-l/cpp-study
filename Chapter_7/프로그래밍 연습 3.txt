@@ -1,0 +1,67 @@
+#include <iostream>
+using namespace std;
+
+struct box {
+    char maker[40];
+    float height;
+    float width;
+    float length;
+    float volume;
+};
+
+void member_read(box);
+void set_volume(box*);
+
+int main(void){
+    box justbox = { "Coo_Pang", 1.2 , 3.4 , 5.6, 0 };
+    member_read(justbox);
+    set_volume(&justbox);
+    cout << endl;
+    member_read(justbox);
+    return 0;
+}
+
+void member_read(box structure){
+    cout << "maker :  " << structure.maker << endl;
+    cout << "height :  " << structure.height << endl;
+    cout << "width  : " << structure.width << endl;
+    cout << "length  : " << structure.length << endl;
+    cout << "volume  : " << structure.volume << endl;
+}
+
+void set_volume(box* pt_structure){
+    pt_structure->volume = pt_structure->height * pt_structure->length * pt_structure->width;
+}#include <iostream>
+using namespace std;
+
+struct box {
+    char maker[40];
+    float height;
+    float width;
+    float length;
+    float volume;
+};
+
+void member_read(box);
+void set_volume(box*);
+
+int main(void){
+    box justbox = { "Coo_Pang", 1.2 , 3.4 , 5.6, 0 };
+    member_read(justbox);
+    set_volume(&justbox);
+    cout << endl;
+    member_read(justbox);
+    return 0;
+}
+
+void member_read(box structure){
+    cout << "maker :  " << structure.maker << endl;
+    cout << "height :  " << structure.height << endl;
+    cout << "width  : " << structure.width << endl;
+    cout << "length  : " << structure.length << endl;
+    cout << "volume  : " << structure.volume << endl;
+}
+
+void set_volume(box* pt_structure){
+    pt_structure->volume = pt_structure->height * pt_structure->length * pt_structure->width;
+}

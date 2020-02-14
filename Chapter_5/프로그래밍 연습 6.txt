@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+
+
+int main() {
+	const char* Months[12] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+	int sales[3][12];
+	int sum[3] = {};
+	cout << "[월 별 매출을 입력하시오]" << endl;
+	for (int i = 0; i < 3; i++) {
+		cout << "====="<<i+1<<"년차=====" << endl;
+		for (int j = 0; j < 12; j++) {
+			cout << *(Months + j) << " : ";
+			cin >> sales[i][j];
+			sum[i] += sales[i][j];
+		}
+		cout << "매출 : " << sum[i] << endl<<endl;
+	}
+	
+
+	for (int i = 0; i < 2; i++)
+	{
+		sum[i + 1] += sum[i];
+		cout << i + 2 << "년째 누적 판매랑 : " << sum[i + 1] << endl;
+	}
+
+	return 0;
+}

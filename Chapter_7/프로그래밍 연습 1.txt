@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+
+double harmonic_mean(double, double);
+
+int main()
+{
+	double num[2] = {};
+	do {
+		cout << "[입력받은 두 수의 조화평균을 구합니다.]" << endl;
+		cout << "입력_수1 : ";
+		cin >> num[0];
+		cout << "입력_수2 : ";
+		cin >> num[1];
+		if (num[0] != 0.0 && num[1] != 0.0) {
+			double har_mean = harmonic_mean(num[0], num[1]);
+			cout << "두 수의 조화평균 : " << har_mean << endl << endl;
+		}
+		else cout << "!!ERROR!!" << endl;
+	} while (num[0]!=0.0 && num[1]!=0.0);
+	return 0;
+}
+
+double harmonic_mean(double num1, double num2)
+{
+	double mean = 2.0 * num1 * num2 / (num1 + num2);
+	return mean;
+}

@@ -1,0 +1,20 @@
+#include <iostream>
+#include <cctype>
+using namespace std;
+
+int main() {
+	cout << "문자를 입력하시오 a(A)~z(Z)" << endl;
+	char letter = '0';
+	
+	while (letter != '@') {
+		cin.get(letter);
+		cin.get();
+		if (!isalpha(letter))
+			cout << "[ERROR]알파벳을 입력하십시오" << endl;
+		else if (isupper(letter))
+			cout << char(tolower(letter)) << endl;
+		else
+			cout << char(toupper(letter)) << endl;
+	}
+	return 0;
+}

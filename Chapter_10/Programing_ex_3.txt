@@ -1,0 +1,60 @@
+[header.h]
+#ifndef GOLF_H_
+#define GOLF_H_
+const int Len = 40;
+class Golf {
+private:
+	char fullname[Len];
+	int handicap;
+public:
+	Golf();
+	Golf(const char* name, int hc = 0);
+	bool IsEmpty();
+	void SetHandicap(int hc);
+	void showgolf();
+};
+#endif
+[golf.cpp]
+#include <iostream>
+#include <cstring>
+#include "header.h"
+using namespace std;
+
+Golf::Golf() {
+	cout << "이름을 입력하시오 : ";
+	cin.getline(fullname, Len);
+	cout << "핸디캡을 입력하시오 : ";
+	cin >> handicap;
+	cin.get();
+}
+Golf::Golf(const char* name, int hc) {
+	strcpy_s(fullname, Len, name);
+	handicap = hc;
+}
+bool Golf::IsEmpty() {
+	return (!fullname[0]);
+}
+void Golf::SetHandicap(int hc) {
+	handicap = hc;
+}
+void Golf::showgolf() {
+	cout << endl;
+	cout << "이름 : " << fullname << endl;
+	cout << "핸디캡 : " <<handicap << endl;
+}
+[usegolf.cpp]
+#include <iostream>
+#include "header.h"
+using namespace std;
+
+int main() {
+	Golf g1 = Golf();
+	Golf g2("Nick",2);
+	Golf g3("Ann");
+	g3.showgolf();
+	g3.SetHandicap(3);
+	g1.showgolf();
+	g2.showgolf();
+	g3.showgolf();
+	return 0;
+}

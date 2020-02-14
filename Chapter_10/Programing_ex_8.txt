@@ -1,0 +1,84 @@
+[list.h]
+#ifndef LIST_H_
+#define LIST_H_
+class List {
+private:
+	int* array;
+	int size;
+	int last;
+public:
+	List(int s = 0);
+	~List();
+	bool IsEmpty();
+	bool IsFull();
+	void DoubleSize();
+	void ShowList();
+	void AddList(int element);
+	void DeleteList();
+	void visit(void(*pf)(int&));
+};
+#endif // !LIST_H_
+[list.cpp]
+#include <iostream>
+#include "list.h"
+List::List(int num) {
+	size = num;
+	array = new int[size];
+	last = 0;
+}
+List::~List() {
+	delete[] array;
+}
+bool List::IsEmpty() {
+	return (!last); //last == 0이면 1 아니면 0 반환
+}
+bool List::IsFull() {
+	return (last == size - 1); //배열의 크기와 last가 같으면 1,아니면 0 반환
+}
+void List::DoubleSize() {
+	int* temp = new int[size * 2]; //크기 두배인 임시 배열(0으로 초기화)
+	for (int i = 0; i < size; i++)
+		temp[i] = array[i]; //ctrl+c ctrl+v
+	delete[] array; //기존 배열 삭제
+	array = temp; //기존 배열을 임시배열로 교체
+	size *= 2; //크기 정보 변경
+}
+void List::AddList(int element) {
+	if (IsFull())
+		DoubleSize();
+	array[last++] = element;
+}
+void List::DeleteList() {
+	array[last--] = 'null';
+}
+void List::ShowList() {
+	std::cout << "\n크기 : " << size << std::endl;
+	if (IsEmpty())
+		std::cout << "EMPTY" << std::endl;
+	else
+		for (int i = 0; i < last; i++)
+			std::cout << "[" << i << "] : " << array[i] << std::endl;
+}
+void List::visit(void(*pf)(int&)) {
+	//이건 뭔지 모르겠음
+}
+[uselist.cpp]
+#include <iostream>
+#include "list.h"
+
+int main() {
+	int Size = 2;
+
+	List one(Size);
+	one.ShowList();
+
+	one.AddList(12);
+	one.AddList(10);
+	one.AddList(13);
+	one.AddList(16);
+	one.ShowList();
+
+	one.DeleteList();
+	one.ShowList();
+	return 0;
+}

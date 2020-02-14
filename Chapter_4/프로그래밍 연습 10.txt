@@ -1,0 +1,19 @@
+#include <iostream>
+#include <array>
+
+int main() {
+	using namespace std;
+
+	array<double, 3> TIME;
+
+	cout << "기록 1 입력 : ";
+	cin >> TIME[0];
+	cout << "기록 2 입력 : ";
+	cin >> TIME[1];
+	cout << "기록 3 입력 : ";
+	cin >> TIME[2];
+
+	cout << "평균 : " << (TIME[0] + TIME[1] + TIME[2]) / 3;
+
+	return 0;
+}

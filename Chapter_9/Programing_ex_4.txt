@@ -1,0 +1,73 @@
+[head]
+#ifndef QUATERSALE_H_
+#define QUATERSALE_H_
+namespace SALES {
+	const int QUARTERS = 4;
+	struct Sales {
+		double sales[QUARTERS] = {};
+		double average;
+		double max;
+		double min;
+	};
+	void setSales(Sales& s, const double ar[], int n); // n : ar[]의 크기.
+	void setSales(Sales& s);
+	void showSales(const Sales& s);
+}
+#endif
+[function]
+#include <iostream>
+#include "head.h"
+using namespace SALES;
+
+void SALES::setSales(Sales& s, const double ar[], int n) {
+	n = QUARTERS < n ? QUARTERS : n;
+	if (n){
+		s.max = s.min = s.average = s.sales[0] = ar[0];
+		for (int i = 1; i < n; i++) {
+			s.sales[i] = ar[i];
+			s.average += s.sales[i];
+			s.max = s.max > s.sales[i] ? s.max : s.sales[i];
+			s.min = s.min < s.sales[i] ? s.min : s.sales[i];
+		}
+		s.average /= n;
+	}
+}
+void SALES::setSales(Sales& s) {
+	using std::cout;
+	using std::cin;
+	using std::endl;
+	cout <<"1분기 판매액을 입력하시오 : ";
+	cin >> s.sales[0];
+	s.max = s.min = s.average = s.sales[0];
+	for (int i = 1; i < 4; i++){
+		cout << i+1 << "분기 판매액을 입력하시오 : ";
+		cin >> s.sales[i];
+		s.average += s.sales[i];
+		s.max = s.max > s.sales[i] ? s.max : s.sales[i];
+		s.min = s.min < s.sales[i] ? s.min : s.sales[i];
+	}
+	s.average /= 4;
+}
+void SALES::showSales(const Sales& s) {
+	using std::cout;
+	using std::endl;
+	for (int i = 0; i < 4; i++)
+		cout <<i+1<< "분기 sales : " << s.sales[i] << endl;
+	cout << "max : " << s.max << endl;
+	cout << "min : " << s.min << endl;
+	cout << "average : " << s.average << endl;
+}
+[main]
+#include <iostream>
+#include "head.h"
+using namespace SALES;
+
+int main() {
+	Sales  s1 = {}, s2 = {};
+	double arr3[3] = { 1000,2000,3000 };
+	setSales(s1, arr3, 3);
+	showSales(s1);
+	setSales(s2);
+	showSales(s2);
+	return 0;
+}

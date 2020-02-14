@@ -1,0 +1,30 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+using namespace std;
+//소문자는 대문자로, 나머지는 그래도 출력하는 함수
+void lower_to_upper(string &str);
+int main() {
+	string str = "";
+	while(1){
+		cout << "문자열을 입력하시오 : ";
+		getline(cin, str);
+		//q가 입력되면 프로그램 종료
+		if (str == "q") {
+			cout << "프로그램을 종료합니다.";
+			break;
+		}
+		lower_to_upper(str);
+	}
+	return 0;
+}
+
+void lower_to_upper(string &str) {
+	int i = 0;
+	while (str[i] != 0) {
+		str[i] = toupper(str[i]);
+		i++;
+	}
+	cout << str << endl;
+	return;
+}

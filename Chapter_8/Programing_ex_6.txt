@@ -1,0 +1,49 @@
+#include <iostream>
+using namespace std;
+
+template<typename T>
+T maxn(T arr[], int n);
+
+template<> const char* maxn(const char* arr[], int n);
+
+int main() {
+	int int_arr[6] = { 21,51,651,321,202,32 };
+	double double_arr[4] = { 12.002,15.203,12.568,878.65 };
+	int arrsize1 = sizeof(int_arr) / sizeof(int);
+	int arrsize2 = sizeof(double_arr) / sizeof(double);
+	cout << "int형 배열의 최대 원소 : " << maxn(int_arr, arrsize1) << endl;
+	cout << endl;
+	cout << "dobule형 배열의 최대 원소 : " << maxn(double_arr, arrsize2) << endl;
+	cout << endl;
+	const char* str[5]{
+		"sample string",
+		"stringsample",
+		"Don't know what to do.",
+		"Too hard to create sentences.",
+		"AN HAE" 
+	};
+	cout << "가장 긴 문자열 : " << maxn(str, 5) << endl;
+
+
+	return 0;
+}
+
+template<typename T>
+T maxn(T arr[], int n) {
+	cout << "Template T" << endl;
+	T max = arr[0];
+	for (int i = 1; i < n; i++)
+		max = (arr[i] > max) ? arr[i] : max;
+	return max;
+}
+
+template<> const char* maxn<const char*>(const char* arr[], int n) {
+	cout << "Specialized template T" << endl;
+	int index = 0;
+	for (int i = 1; i < n; i++) {
+		int len1 = strlen(arr[index]);
+		int len2 = strlen(arr[i]);
+		index = len1 > len2 ? index : i;
+	}
+	return arr[index];
+}

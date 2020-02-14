@@ -1,0 +1,107 @@
+[header.h]
+#ifndef TIME_H_
+#define TIME_H_
+
+class Time{
+public:
+	Time();
+	Time(int h, int m = 0);
+	void AddMin(int m);
+	void AddHr(int h);
+	void Reset(int h = 0, int m = 0);
+
+	friend Time operator+(const Time& a, const Time& b) ;
+	friend Time operator-(const Time& a, const Time& b) ;
+	friend Time operator*(double n, const Time& t);
+	friend Time operator*(const Time& t, double n) { return n * t; }
+	friend std::ostream& operator<<(std::ostream& os, const Time& t);
+private:
+	int hours;
+	int minutes;
+};
+#endif //TIME_H_
+[time.cpp]
+#include <iostream>
+#include "header.h"
+
+Time::Time(){
+	hours = minutes = 0;
+}
+
+Time::Time(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+void Time::AddMin(int m){
+	minutes += m;
+	hours += minutes / 60;
+	minutes %= 60;
+}
+
+void Time::AddHr(int h){
+	hours += h;
+}
+
+void Time::Reset(int h, int m){
+	hours = h;
+	minutes = m;
+}
+
+Time operator+(const Time& a, const Time& b) {
+	int totalminutes = a.minutes + b.minutes + 60 * (a.hours + b.hours);
+	int h = totalminutes / 60;
+	int m = totalminutes % 60;
+	return Time(h, m);
+}
+Time operator-(const Time& a, const Time& b) {
+	int a_totmin = a.minutes + 60 * a.hours;
+	int b_totmin = b.minutes + 60 * b.hours;
+	int h = (a_totmin - b_totmin) / 60;
+	int m = (a_totmin - b_totmin) % 60;
+	return Time(h,m);
+}
+Time operator*(double n,const Time& t) {
+	Time result;
+	long totmin = t.hours * n * 60 + t.minutes * n;
+	result.hours = totmin / 60;
+	result.minutes = totmin % 60;
+	return result;
+}
+std::ostream& operator<<(std::ostream& os, const Time& t){
+	os << t.hours << " hours, " << t.minutes << " minutes";
+	return os;
+}
+[usetime.cpp]
+#include <iostream>
+#include "header.h"
+
+int main()
+{
+	Time aida(3, 35);
+	Time tosca(2, 48);
+	Time temp;
+
+	std::cout << "Aida and Tosca:" << std::endl;
+	std::cout << aida << "; " << tosca << std::endl << std::endl;
+
+	temp = aida + tosca;
+	std::cout << "Aida + Tosca: " << temp << std::endl << std::endl;
+
+	temp = tosca + aida;
+	std::cout << "Tosca + Aida: " << temp << std::endl << std::endl;
+
+	temp = aida - tosca;
+	std::cout << "Aida - Tosca: " << temp << std::endl << std::endl;
+
+	temp = aida * 1.17;
+	std::cout << "Aida * 1.17: " << temp << std::endl << std::endl;
+	std::cout << "10.0 * Tosca: " << 10.0 * tosca << std::endl;
+
+	temp = 1.17 * aida;
+	std::cout << "1.17 * Aida: " << temp << std::endl;
+	std::cout << "Tosca * 10.0: " << tosca * 10 << std::endl;
+
+	std::cin.get();
+	return 0;
+}

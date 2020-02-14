@@ -1,0 +1,178 @@
+[header]
+#ifndef VECTOR_H_
+#define VECTOR_H_
+#include <iostream>
+namespace VECTOR {
+	class Vector {
+	public:
+		enum MODE { RECT, POL };
+		Vector();
+		Vector(double n1, double n2, MODE form = RECT);
+		void Reset(double n1, double n2, MODE form = RECT);
+		~Vector();
+		double xval() const { return x; }
+		double yval() const { return y; }
+		double magval() const { return set_mag(); }
+		double angval() const { return set_ang(); }
+		void polar_mode();
+		void rect_mode();
+
+		Vector operator+(const Vector& b)const;
+		Vector operator-(const Vector& b)const;
+		Vector operator-() const; //부호를 바꾼다.
+		Vector operator*(double n)const;
+
+		friend Vector operator*(double n, const Vector& a);
+		friend std::ostream& operator<< (std::ostream& os, const Vector& v);
+	private:
+		double x;
+		double y;
+		MODE mode;
+		double set_mag() const;
+		double set_ang() const;
+		void set_x(double mag,double ang);
+		void set_y(double mag,double ang);
+	};
+}
+#endif // !VECTOR_H_
+[vector.cpp]
+#include <iostream>
+#include <cmath>
+#include "header.h"
+using std::sqrt;
+using std::sin;
+using std::cos;
+using std::atan;
+using std::atan2;
+using std::cout;
+using std::endl;
+
+namespace VECTOR {
+	const double Rad_to_Deg = 45 / atan(1.0);
+	void Vector::set_x(double m, double a) {
+		x = m * cos(a);
+	}
+	void Vector::set_y(double m, double a) {
+		y = m * sin(a);
+	}
+	double Vector::set_mag() const {
+		return sqrt(x * x + y * y);
+	}
+	double Vector::set_ang()const {
+		if (x == 0 && y == 0)
+			return 0.0;
+		else
+			return atan2(y, x);
+	}
+
+	Vector::Vector() {
+		x = y = 0.0;
+		mode = RECT;
+	}
+	Vector::Vector(double n1, double n2, MODE form) {
+		mode = form;
+		if (mode == RECT) {
+			x = n1;
+			y = n2;
+		}
+		else if (mode == POL) {
+			set_x(n1,n2);
+			set_y(n1,n2);
+		}
+		else {
+			cout << "[ERROR]MODE에 잘못된 인자가 전달됐음[ERROR]" << endl;
+			cout << "따라서 영벡터로 생성합니다." << endl;
+			x = y = 0;
+			mode = RECT;
+		}
+	}
+	void Vector::Reset(double n1, double n2, MODE form) {
+		mode = form;
+		if (mode == RECT) {
+			x = n1;
+			y = n2;
+		}
+		else if (mode == POL) {
+			set_x(n1,n2);
+			set_y(n1,n2);
+		}
+		else {
+			cout << "[ERROR]MODE에 잘못된 인자가 전달됐음[ERROR]" << endl;
+			cout << "따라서 영벡터로 생성합니다." << endl;
+			x = y = 0;
+			mode = RECT;
+		}
+	}
+	Vector::~Vector() {}
+	void Vector::polar_mode() {
+		mode = POL;
+	}
+	void Vector::rect_mode() {
+		mode = RECT;
+	}
+	Vector Vector::operator+(const Vector& b) const {
+		return Vector(x + b.x, y + b.y, RECT);
+	}
+	Vector Vector::operator-(const Vector& b) const {
+		return Vector(x - b.x, y - b.y);
+	}
+	Vector Vector::operator-() const {
+		return Vector(-x, -y);
+	}
+	Vector Vector::operator*(double n)const {
+		return Vector(n * x, n * y);
+	}
+	Vector operator*(double n, const Vector& a) {
+		return a * n;
+	}
+	std::ostream& operator<<(std::ostream& os, const Vector& a) {
+		if (a.mode == Vector::RECT)
+			os << "(x,y) = (" << a.x << "," << a.y << ")";
+		else if (a.mode == Vector::POL)
+			os << "(mag,deg) = (" << a.magval() << "," << a.angval() * Rad_to_Deg << ")";
+		else
+			os << "객체 모드 지정이 틀렸습니다." << endl;
+		return os;
+	}
+}
+[usevector.cpp]
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include "header.h"
+
+int main() {
+	using namespace std;
+	using namespace VECTOR;
+	srand(0);
+	double direction;
+	Vector step;
+	Vector result(0.0, 0.0);
+	unsigned long steps = 0;
+	double target;
+	double dstep;
+	cout << "목표 거리를 입력하시오(종료:q) : ";
+	while (cin >> target) {
+		cout << "보폭을 입력하시오 : ";
+		if (!(cin >> dstep)) break;
+		cout << "목표거리 : " << target << "보폭 : " << dstep << endl;
+		while (result.magval() < target) {
+			direction = rand() % 360;
+			step.Reset(dstep, direction, Vector::POL);
+			result = result + step;
+			steps++;
+		}
+		cout << steps << " 걸음을 걸은 후 술고래의 현재 위치 : " << endl;
+		cout << result << endl;
+		result.polar_mode();
+		cout << "또는" << endl << result << endl;
+		cout << "걸음 당 기둥에서 벗어난 평균 거리 = " << result.magval() / steps << endl;
+		steps = 0;
+		result.Reset(0.0, 0.0);
+		result.rect_mode();
+		cout << "목표거리를 입력하시오(종료 q) : ";
+	}
+	cout << "프로그램을 종료합니다." << endl;
+	while (cin.get() != '\n') continue;
+	return 0;
+}

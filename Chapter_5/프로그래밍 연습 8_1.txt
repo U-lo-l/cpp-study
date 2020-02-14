@@ -1,0 +1,18 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int main() {
+	char words[100];
+	int count = 0;
+	cout << "영어단어들을 입력하십시오(끝내려면 done입력) :";
+
+	while (strcmp(words, "done")) {
+		cin >> words;
+		count++;
+	}
+
+	cout << count - 1 << "개의 단어를 입력하였습니다.";
+
+	return 0;
+}

@@ -1,0 +1,31 @@
+#include <iostream>
+
+void print_string(char* pstr);
+void print_string(char* pstr, int sign);
+int COUNT = 0;
+
+int main() {
+	char string_sample[20] = { "Sample string" };
+	print_string(string_sample);
+	std::cout << "정수 하나를 입력하시오 : " << std::endl;
+	int a;
+	while (std::cin>>a) {
+		std::cout << "입력한 정수 : " << a << std::endl;
+		print_string(string_sample,a);
+		std::cout << "정수 하나를 입력하시오 : " << std::endl;
+	}
+}
+
+void print_string(char* pstr) {
+	std::cout << "PRINT_STRING(char*)" << std::endl;
+	std::cout << pstr << std::endl << std::endl;
+}
+void print_string(char* pstr, int sign) {
+	std::cout << "PRINT_STRING(char*,int)" << std::endl;
+	std::cout << "호출 되었던 횟수 : " << COUNT << std::endl;
+	for (int i = 0; (i < COUNT)&&sign; i++)
+		std::cout << pstr << std::endl;
+	COUNT++;
+	std::cout << std::endl;
+}
+

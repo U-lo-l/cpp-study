@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+
+template<typename T>
+T max5(T arr[5]);
+
+int main() {
+	int int_arr[5] = { 10,50,84,62,31 };
+	double double_arr[5] = { 0.0,15.0,25.2,484.2,54.2156 };
+
+	cout << "max = " << max5(int_arr) << endl;
+	cout << "size= " << sizeof(max5(int_arr)) << endl;
+
+	cout << "max = " << max5(double_arr) << endl;
+	cout << "size= " << sizeof(max5(double_arr)) << endl;
+
+	return 0;
+}
+
+template<typename T>
+T max5(T arr[5]) {
+	T max = arr[0];
+	for (int i = 1; i < 5; i++)
+		max = (arr[i] > max) ? arr[i] : max;
+	return max;
+}

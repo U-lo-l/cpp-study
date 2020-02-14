@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	cout << "출력할 행의 수를 입력하십시오 : ";
+	int rows;
+	cin >> rows;
+	for (int i = 1; i <= rows; i++) {
+		for (int j = (rows - i); j > 0; j--) {
+			cout << '.';
+		}
+		for (int k = i; k > 0; k--) {
+			cout << '*';
+		}
+		cout << endl;
+	}
+
+	return 0;
+}

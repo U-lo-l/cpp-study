@@ -1,0 +1,42 @@
+#include <iostream>
+//#include <array>
+#include <string>
+
+const int Seasons = 4;
+const char* Sname[Seasons] = { "Spring","Summer","Fall","Winter" };
+//std::array<std::string, Season> Sname =  { "Spring","Summer","Fall","Winter" };
+
+struct Cost {
+	double expenses[Seasons];
+};
+
+void fill(double arr[]);
+//void fill(std::array<double,Season> *arr) [객체를 수정하는 기능]
+void _show(const double arr[]);
+//void _show(std::array<double,Season> arr) [객채를 수정하지 않는 기능]
+
+int main() {
+	Cost Exp;
+	fill(Exp.expenses);
+	_show(Exp.expenses);
+}
+
+void fill(double arr[]) {
+	using namespace std;
+	for (int i = 0; i < Seasons; i++){
+		cout << Sname[i] << "에 소요되는 비용 : ";
+		cin >> arr[i];
+	}
+	return;
+}
+
+void _show(const double arr[]) {
+	using namespace std;
+	double total = 0.0;
+	for (int i = 0; i < Seasons; i++){
+		cout << Sname[i] << " : $" << arr[i] << endl;
+		total += arr[i];
+	}
+	cout << "총 비용 : $" << total;
+	return;
+}

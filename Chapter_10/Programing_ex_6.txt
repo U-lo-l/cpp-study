@@ -1,0 +1,38 @@
+#include <iostream>
+
+class Move {
+private:
+	double x, y;
+public:
+	Move(double a, double b) { x = a; y = b; }
+	void showMove();
+	Move add(const Move& m)const;
+	void reset(double a = 0, double b = 0) { x = a; y = b; }
+};
+int main() {
+	double a[2] = { 3,4 };
+	double b[2] = { 5,6 };
+	Move A(a[0], a[1]);
+	Move B(b[0], b[1]);
+	std::cout << "[A]" << std::endl;
+	A.showMove();
+	std::cout << "[B]" << std::endl;
+	B.showMove();
+	A.reset(10, 10);
+	std::cout << "[A]" << std::endl;
+	A.showMove();
+	Move C = A.add(B);
+	std::cout << "[C]" << std::endl;
+	C.showMove();
+	return 0;
+}
+void Move::showMove() {
+	std::cout << "x :" << x << std::endl;
+	std::cout << "y :" << y << std::endl;
+}
+Move Move::add(const Move& m) const {
+	Move newone(x, y);
+	newone.x += m.x;
+	newone.y += m.y;
+	return newone;
+}

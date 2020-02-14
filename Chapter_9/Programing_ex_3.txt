@@ -1,0 +1,27 @@
+뭐하는거지 이건..
+#include <iostream>
+#include <new>
+
+const int BUF = 512;
+char buffer[BUF];
+
+struct chaff
+{
+	char dross[20];
+	int slag;
+};
+
+int main() {
+	using namespace std;
+	chaff* pstrct = new (buffer) chaff[2];
+	const char* str[2] = { "example1","example2" };
+	for (int i = 0; i < 2; i++) {
+		strcpy_s(pstrct[i].dross, 20, str[i]);
+		pstrct[i].slag = 10 * i;
+	}
+	for (int i = 0; i < 2; i++){
+		cout << "chaff[" << i << "]" << endl;
+		cout << pstrct[i].dross << endl << pstrct[i].slag << endl;
+	}
+
+}

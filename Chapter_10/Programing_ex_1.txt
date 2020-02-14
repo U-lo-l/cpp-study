@@ -1,0 +1,110 @@
+[account.h]
+#ifndef ACCOUNT_H_
+#define ACCOUNT_H_
+#include <string>
+using std::string;
+int ShowMenu();
+class Account {
+private:
+	string name;
+	string adress;
+	double balance;
+public:
+	Account(const string& client, const string& num, double bal = 0);
+	void _ShowAccount() const;
+	void  Deposit(double money);
+	void  Withdraw(double mony);
+};
+
+#endif // !ACCOUNT_H_
+[account.cpp]
+#include<iostream>
+#include "acountheader.h"
+using std::string;
+using std::cout;
+using std::endl;
+
+int ShowMenu() {
+	int option = 0;
+	cout << "업무를 선택하십시오.\n계좌정보(1), 입금(2), 출금(3), 나가기(0)" << endl;
+	std::cin >> option;
+	return option;
+}
+Account::Account(const string& client, const string& num, double bal) {
+	name = client;
+	adress = num;
+	balance = bal;
+}
+void Account::_ShowAccount() const {
+	cout << "------계좌 정보 출력------" << endl;
+	cout << "성함 : " << name << endl;
+	cout << "계좌 : " << adress << endl;
+	cout << "잔액 : " << balance << endl;
+	cout << "-------------------------" << endl;
+}
+void Account::Deposit(double money) {
+	balance += money;
+	cout << "입금 : " << money << endl;
+	cout << "잔액 : " << balance << endl;
+}
+void Account::Withdraw(double money) {
+	if (balance < money)
+		cout << "잔액이 부족합니다. 잔액 : " << balance << endl;
+	else {
+		balance -= money;
+		cout << "출금 : " << money << endl;
+		cout << "잔액 : " << balance << endl;
+	}
+}
+[useaccount.cpp]
+#include<iostream>
+#include<string>
+#include "acountheader.h"
+
+int main() {
+	std::cout << "계좌 등록(Y/N)" << std::endl;
+	char make;
+	std::cin >> make;
+	std::cin.get();
+	if (make != 'Y' and make != 'y')
+		std::cout << "계좌 등록 취소" << std::endl;
+	else {
+		std::string client;
+		std::string adress;
+		double cash;
+		std::cout << "성함을 입력하시오 : " << std::endl;
+		std::getline(std::cin, client);
+		std::cout << "계좌을 입력하시오 : " << std::endl;
+		std::getline(std::cin, adress);
+		std::cout << "금액을 입력하시오 : " << std::endl;
+		std::cin >> cash;
+		std::cin.get();
+		Account account(client, adress, cash);
+		int option;
+		do{
+			option = ShowMenu();
+			switch (option)
+			{
+				double money;
+			case 1:
+				account._ShowAccount();
+				break;
+			case 2:
+				std::cout << "입금할 금액을 입력하시오. : ";
+				std::cin >> money;
+				account.Deposit(money);
+				break;
+			case 3:
+				std::cout << "출금할 금액을 입력하시오. : ";
+				std::cin >> money;
+				account.Withdraw(money);
+				break;
+			default:
+				option = 0;
+				break;
+			}
+		} while (option);
+	}
+	std::cout << "[프로그램 종료]" << std::endl;
+	return 0;
+}

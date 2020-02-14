@@ -1,0 +1,42 @@
+#include<iostream>
+using std::string;
+
+class Person {
+private:
+	static const int LIMIT = 25;
+	string lname;
+	char fname[LIMIT];
+public:
+	Person() { lname = ""; fname[0] = '\0'; };
+	Person(const string& ln, const char fn[] = "Heyyou");
+	void Show() const; // firstname lastname
+	void FormalShow() const; // lastname, firstname
+};
+
+int main() {
+	Person one;
+	Person two("Smythecraft");
+	Person three("Dimwiddy,Sam");
+	one.Show();
+	one.FormalShow();
+	two.Show();
+	two.FormalShow();
+	three.Show();
+	three.FormalShow();
+}
+Person::Person(const string& ln, const char fn[]) {
+	lname = ln;
+	strcpy_s(fname, LIMIT, fn);
+}
+void Person::Show() const {
+	if (lname == "" && fname[0] == '\0')
+		std::cout << "이름 없음" << std::endl;
+	else
+		std::cout << fname << " " << lname << std::endl;
+}
+void Person::FormalShow() const {
+	if (lname == "" && fname[0] == '\0')
+		std::cout << "이름 없음" << std::endl;
+	else
+		std::cout << lname << ", " << fname << std::endl;
+}

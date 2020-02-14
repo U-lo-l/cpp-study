@@ -1,0 +1,36 @@
+#include <iostream>
+const int LIM = 20;
+class Plorg {
+private:
+	char name[LIM];
+	int CI;
+public:
+	Plorg();
+	Plorg(const char name[]);
+	void ChangeCI(int ci);
+	void ShowPlorg();
+};
+
+int main() {
+	Plorg one = Plorg();
+	one.ShowPlorg();
+	Plorg two("newplorga");
+	two.ChangeCI(10);
+	two.ShowPlorg();
+	return 0;
+}
+Plorg::Plorg(){
+	strcpy_s(name, LIM, "Plorga");
+	CI = 50;
+}
+Plorg::Plorg(const char n[]) {
+	strcpy_s(name, LIM, n);
+	CI = 50;
+}
+void Plorg::ChangeCI(int ci) {
+	CI = ci;
+}
+void Plorg::ShowPlorg() {
+	std::cout << "name : " << name << std::endl;
+	std::cout << " CI  : " << CI << std::endl;
+}

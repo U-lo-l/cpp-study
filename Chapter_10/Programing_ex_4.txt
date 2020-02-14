@@ -1,0 +1,81 @@
+[header.h]
+#ifndef QUATERSALE_H_
+#define QUATERSALE_H_
+namespace SALES {
+	const int QUARTERS = 4;
+	class Sales {
+	private:
+		double sales[QUARTERS] = {};
+		double average = 0;
+		double max = 0;
+		double min = 0;
+	public:
+		Sales();
+		Sales(const double ar[], int n); // n : ar[]의 크기.
+		void showSales();
+	};
+}
+#endif
+[salse.cpp]
+
+#include <iostream>
+#include "header.h"
+using namespace SALES;
+
+Sales::Sales(const double ar[], int n) {
+	n = QUARTERS < n ? QUARTERS : n;
+	if (n) {
+		max = min = average = sales[0] = ar[0];
+		for (int i = 1; i < n; i++) {
+			sales[i] = ar[i];
+			average += sales[i];
+			max = max > sales[i] ? max : sales[i];
+			min = min < sales[i] ? min : sales[i];
+		}
+		average /= n;
+	}
+}
+Sales::Sales() {
+	using std::cout;
+	using std::cin;
+	using std::endl;
+	cout << "1분기 판매액을 입력하시오 : ";
+	cin >> sales[0];
+	max = min = average = sales[0];
+	for (int i = 1; i < 4; i++) {
+		cout << i + 1 << "분기 판매액을 입력하시오 : ";
+		cin >> sales[i];
+		average += sales[i];
+		max = max > sales[i] ? max : sales[i];
+		min = min < sales[i] ? min : sales[i];
+	}
+	average /= 4;
+}
+void Sales::showSales() {
+	using std::cout;
+	using std::endl;
+	cout << "--------------------" << endl;
+	for (int i = 0; i < 4; i++)
+		cout << i + 1 << "분기 sales : " << sales[i] << endl;
+	cout << "--------------------" << endl;
+	cout << "max : " << max << endl;
+	cout << "min : " << min << endl;
+	cout << "average : " << average << endl;
+	cout << "====================" << endl;
+}
+[usesales.cpp]
+#include <iostream>
+#include "header.h"
+using namespace SALES;
+
+int main() {
+	const int arrsize = 3;
+	Sales s1 = Sales();
+	double arr3[arrsize] = { 1000,2000,3000 };
+	Sales s2 = Sales(arr3,arrsize);
+	std::cout << "[display s1]" << std::endl;
+	s1.showSales();
+	std::cout << "[display s2]" << std::endl;
+	s2.showSales();
+	return 0;
+}

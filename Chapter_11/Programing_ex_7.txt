@@ -1,0 +1,101 @@
+[header]
+#ifndef COMPLEX_H_
+#define COMPLEX_H_
+#include <iostream>
+
+class complex{
+public:
+	complex();
+	complex(double i,double r);
+
+	complex operator+(const complex& a) const;
+	complex operator-(const complex& a) const;
+	complex operator*(const complex& a) const;
+	complex operator*(double num)const;
+	complex operator-()const;
+	complex operator~() const;
+	
+	friend complex operator* (double num, complex& a);
+	friend std::ostream& operator<< (std::ostream& os, const complex& a);
+	friend std::istream& operator>> (std::istream& os, complex& a);
+	   
+private:
+	double r_part;
+	double i_part;
+};
+
+#endif // !VECTOR_H_
+
+[complex.cpp]
+#include <iostream>
+#include "header.h"
+
+complex::complex() {
+	r_part = 0;
+	i_part = 0;
+}
+complex::complex(double r = 0, double i = 0) {
+	r_part = r;
+	i_part = i;
+}
+
+complex complex::operator+(const complex& a) const {
+	return complex(r_part + a.r_part, i_part + a.i_part);
+}
+complex complex::operator-(const complex& a) const {
+	return complex(r_part - a.r_part, i_part - a.i_part);
+}
+complex complex::operator*(const complex& a) const {
+	double r_temp = r_part * r_part - i_part * a.i_part;
+	double i_temp = r_part * a.i_part + a.r_part * i_part;
+	return complex(r_temp, i_temp);
+}//(a+bi)(c+di)=(ac-bd)+i(ad+bc)
+complex complex::operator-()const {
+	return complex(-r_part, -i_part);
+}
+complex complex::operator~() const {
+	return complex(r_part, -i_part);
+}
+complex complex::operator*(double num) const {
+	return (num*r_part,num*i_part);
+}
+complex operator* (double num, complex& a) {
+	return a*2;
+}
+std::ostream & operator<< (std::ostream& os,const complex& a) {
+	os << "(" << a.r_part << "," << a.i_part << ")";
+	return os;
+}
+std::istream & operator>> (std::istream& os,complex& a) {
+	using std::cout;
+	double r_temp;
+	double i_temp;
+	cout << "정수부 : ";
+	os >> a.r_part;
+	cout << "허수부 : ";
+	os >> a.i_part;
+
+	return os;
+}
+[usecmplx.cpp]
+#include <iostream>
+#include "header.h"
+
+int main() {
+	using namespace std;
+	complex a(3.0, 4.0);
+	complex c;
+	cout << "하나의 복소수 입력(종료 : q)" << endl;
+	while (cin >> c) {
+		cout << "c = " << c << endl;
+		cout << "공액 복소수 = " << ~c << endl;
+		cout << "a = " << a << endl;
+		cout << "a + c = " << a + c << endl;
+		cout << "a - c= " << a - c << endl;
+		cout << "a * c= " << a * c << endl;
+		cout << "2 * c = " << 2* c << endl;
+		cout << "하나의 복소수 입력(종료 : q)" << endl;
+	}
+	cout << "프로그램 종료" << endl;
+	return 0;
+}

@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	int A_money = 100000;
+	int B_money = 100000;
+	int year = 0;
+	while (A_money >= B_money) {
+		A_money += 10000;
+		B_money = B_money * (1.05);
+		year++;
+	}
+	cout << year << "년 후"<<endl;
+	cout << "고객 A : " << A_money << endl;
+	cout << "고객 B : " << B_money << endl;
+
+	return 0;
+}

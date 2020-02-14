@@ -1,0 +1,44 @@
+#include <iostream>
+using namespace std;
+
+double add(double, double);
+double subtract(double, double);
+double multiply(double, double);
+double average(double, double);
+double calculate(double a, double b, double (*function)(double,double));
+
+int main() {
+	double a, b;
+	double (*pf[4])(double, double) = {add,subtract,multiply,average};
+	
+	cout << "두 수를 입력하시오." << endl;
+	cout << "a = ";
+	cin >> a;
+	cout << "b = ";
+	cin >> b;
+
+	cout << "연산을 선택하시오 :" << endl;
+	cout << "덧셈 : 0 뺄셈 : 1 곱셉 : 2 평균 : 3" << endl;
+	int select;
+	cin >> select;
+	while (select < 0 || select >3) {
+		cout << "ERROR 입력한 숫자 : " << select << endl;
+		cout << "다시 입력하시오 : " << endl;
+		cout << "덧셈 : 0 뺄셈 : 1 곱셉 : 2 평균 : 3" << endl;
+		cin >> select;
+	}
+
+	double result = calculate(a, b, pf[select]);
+	cout << "결과 : " << result;
+
+	return 0;		
+}
+
+double add(double a, double b) {return a + b;}
+double subtract(double a, double b) { return a - b; }
+double multiply(double a, double b) { return a * b; }
+double average(double a, double b) { return (a + b) / 2; }
+
+double calculate(double a, double b, double (*function)(double, double)) {
+	return (*function)(a, b);
+}

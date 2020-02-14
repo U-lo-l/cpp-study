@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct CandyBar {
+	char name[20];
+	float mass;
+	int kal;
+};
+
+void modify_CandyBar(CandyBar& candybar, const char* name = "Millennium Munch" , float mass = 2.85, int kal = 350);
+void print_CandyBar(CandyBar& candybar);
+
+int main() {
+	char candyname[20];
+	float candymass;
+	int candykal;
+	cout << "캔디바의 상표를 입력하시오 : " << endl;
+	cin >> candyname;
+	cout << "캔디바의 질량을 입력하시오 : " << endl;
+	cin >> candymass;
+	cout << "캔디바의 열량을 입력하시오 : " << endl;
+	cin >> candykal;
+	CandyBar Candy;
+	modify_CandyBar(Candy, candyname, candymass, candykal);
+	print_CandyBar(Candy);
+}
+
+void modify_CandyBar(CandyBar& CB, const char* n , float m, int k) {
+	strncpy_s(CB.name,n,20);
+	CB.mass = m;
+	CB.kal = k;
+}
+void print_CandyBar(CandyBar& CB) {
+	cout << CB.name << endl << CB.mass << endl << CB.kal;
+}

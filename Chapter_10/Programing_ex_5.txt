@@ -1,0 +1,123 @@
+[stack.h]
+#ifndef STRUCT0_H_
+#define STRUCT0_H_
+typedef unsigned long Item;
+struct customer {
+	char fullname[35];
+	double payment;
+};
+class Stack {
+private:
+	customer* information;
+	int size;
+	int index;
+	Item total;
+public:
+	Stack();
+	Stack(int s);
+	~Stack();
+	void DoubleSize();
+	void AddCustomer(const char* name, double pay);
+	void DeleteCustomer();
+	void ShowList();
+};
+#endif
+[stack.cpp]
+#include <iostream>
+#include "stack.h"
+
+Stack::Stack() {
+	information = new customer[1];
+	size = 1;
+	nextblank = 0;
+	total = 0;
+}
+Stack::Stack(int s) {
+	size = s;
+	information = new customer[size];
+	nextblank = 0;
+	total = 0;
+}
+Stack::~Stack() {
+	delete[] information;
+}
+void Stack::DoubleSize() {
+
+}
+void Stack::AddCustomer(const char* name, double pay) {
+	if (nextblank + 1 > size) std::cout << "[ERROR]FULL" << std::endl;
+	else {
+		strcpy_s(information[nextblank].fullname, NameSize, name);
+		information[nextblank].payment = pay;
+		nextblank++;
+	}
+}
+void Stack::DeleteCustomer() {
+	if (nextblank == 0) std::cout << "[ERROR]EMPTY" << std::endl;
+	else {
+		nextblank--;
+		strcpy_s(information[nextblank].fullname, NameSize, "");
+		total += information[nextblank].payment;
+		information[nextblank].payment = 'null';
+	}
+}
+
+void Stack::ShowList() {
+	using std::cout;
+	using std::endl;
+	cout << "     [DISPLAY]    " << endl;
+	cout << "------------------" << endl;
+	for (int i = 0; i < nextblank; i++)
+	{
+		cout << "customer#" << i + 1;
+		cout << " ||  full name : ";
+		cout.width(15);
+		cout.left;
+		cout << information[i].fullname;
+		cout.right;
+		cout << " ||  payment : ";
+		cout.width(7);
+		cout << information[i].payment << endl;
+		cout << "------------------" << endl;
+	}
+	cout << "total : " << total;
+}
+[usestack.cpp]
+#include <iostream>
+#include "stack.h"
+const int Size = 4;
+
+int main() {
+	using std::cout;
+	using std::cin;
+	using std::endl;
+	Stack Cust(Size);
+	while (1) {
+		cout << "[고객 정보 추가(y/n)]" ;
+		char yon;
+		cin >> yon;
+		if (yon == 'y' or yon == 'Y') {
+			while (yon != '\n') cin.get(yon);
+			char name[NameSize] = {};
+			double money;
+			cout << "이름 입력 : ";
+			cin.getline(name, NameSize);
+			cout << "페이 입력 : ";
+			cin >> money;
+			cin.get();
+			Cust.AddCustomer(name, money);
+		}
+		else {
+			while (yon != '\n') cin.get(yon);
+			cout << "[고객정보 삭제(y/n)]";
+			cin >> yon;
+			cin.get();
+			if (yon == 'y' or yon == 'Y') {
+			while(yon!='\n') cin.get(yon);
+				Cust.DeleteCustomer();
+			}
+			else break;
+		}
+	}
+	Cust.ShowList();
+}
